@@ -28,6 +28,10 @@
       ansible.builtin.file:
         path: /opt/tomcat
         state: directory
+    - name: Installing Unzip 
+      apt:
+        name: unzip
+        state: present
     - name: Extracting the tomact to home directory
       ansible.builtin.unarchive:
         src: ./apache-tomcat-7.0.109.tar.gz
@@ -54,4 +58,4 @@
         name: tomcat
         state: started 
         enabled: yes
-        
+
