@@ -1,0 +1,57 @@
+---
+- name: Installing openmrs in Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Updating the cache
+      apt:
+        update_cache: yes
+    - name: Installing Java 
+      apt:
+        name: openjdk-8-jdk
+        state: present
+    - name: Creating Group
+      ansible.builtin.group:
+        name: tomcat
+        state: present
+    - name: Creating User, adding default shell & home directory
+      ansible.builtin.user:
+        group: tomcat
+        name: tomcat
+        shell: /bin/false
+        home: /opt/tomcat
+    - name: Downloading the tomcat 
+      ansible.builtin.get_url:
+        url: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/apache-tomcat-7.0.109.tar.gz
+        dest: .
+    - name: Creating home directory for tomcat
+      ansible.builtin.file:
+        path: /opt/tomcat
+        state: directory
+    - name: Extracting the tomact to home directory
+      ansible.builtin.unarchive:
+        src: ./apache-tomcat-7.0.109.tar.gz
+        dest: /opt/tomcat
+        remote_src: yes
+    - name: Changing the group & owner for tomcat
+      ansible.builtin.file:
+        path: /opt/tomcat
+        group: tomact
+        owner: /opt/tomcat
+        recurse: yes
+    - name: Changing the permissions for conf directory
+      ansible.builtin.file:
+        path: /opt/tomcat/conf
+        mode: g+r,g+x
+        recurse: yes
+    - name: adding service file for tomcat
+      ansible.builtin.template: 
+        src: tomact.service.j2
+        dest: /etc/systemd/system/tomcat.service
+    - name: Restarting tomact
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        name: tomcat
+        state: started 
+        enabled: yes
+        
