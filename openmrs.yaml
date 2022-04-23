@@ -37,7 +37,7 @@
       ansible.builtin.file:
         path: /opt/tomcat
         group: tomact
-        owner: /opt/tomcat
+        owner: tomact
         recurse: yes
     - name: Changing the permissions for conf directory
       ansible.builtin.file:
