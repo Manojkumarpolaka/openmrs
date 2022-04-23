@@ -28,9 +28,9 @@
       ansible.builtin.file:
         path: /opt/tomcat
         state: directory
-    - name: Installing Unzip 
+    - name: Installing tar
       apt:
-        name: unzip
+        name: tar
         state: present
     - name: Extracting the tomact to home directory
       ansible.builtin.unarchive:
