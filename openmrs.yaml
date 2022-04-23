@@ -28,9 +28,9 @@
       ansible.builtin.file:
         path: /opt/tomcat
         state: directory
-    - name: Installing tar
+    - name: Installing gtar
       apt:
-        name: tar
+        name: gtar
         state: present
     - name: Extracting the tomact to home directory
       ansible.builtin.unarchive:
