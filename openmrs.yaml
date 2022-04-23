@@ -8,7 +8,7 @@
         update_cache: yes
     - name: Installing Java 
       apt:
-        name: openjdk-8-jdk
+        name: openjdk-11-jdk
         state: present
     - name: Creating Group
       ansible.builtin.group:
@@ -22,19 +22,15 @@
         home: /opt/tomcat
     - name: Downloading the tomcat 
       ansible.builtin.get_url:
-        url: https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/apache-tomcat-7.0.109.tar.gz
+        url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.zip
         dest: .
     - name: Creating home directory for tomcat
       ansible.builtin.file:
         path: /opt/tomcat
         state: directory
-    - name: Installing gtar
-      apt:
-        name: gtar
-        state: present
     - name: Extracting the tomact to home directory
       ansible.builtin.unarchive:
-        src: ./apache-tomcat-7.0.109.tar.gz
+        src: ./apache-tomcat-9.0.62.zip
         dest: /opt/tomcat
         remote_src: yes
     - name: Changing the group & owner for tomcat
